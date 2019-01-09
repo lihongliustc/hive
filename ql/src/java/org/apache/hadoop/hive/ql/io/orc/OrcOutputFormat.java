@@ -51,7 +51,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapred.RecordWriter;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.util.Progressable;
@@ -123,7 +123,7 @@ public class OrcOutputFormat extends FileOutputFormat<NullWritable, OrcSerdeRow>
     }
   }
 
-  private OrcFile.WriterOptions getOptions(JobConf conf, Properties props) {
+  private OrcFile.WriterOptions getOptions(Configuration conf, Properties props) {
     OrcFile.WriterOptions result = OrcFile.writerOptions(props, conf);
     if (props != null) {
       final String columnNameProperty =
@@ -167,7 +167,7 @@ public class OrcOutputFormat extends FileOutputFormat<NullWritable, OrcSerdeRow>
 
   @Override
   public RecordWriter<NullWritable, OrcSerdeRow>
-  getRecordWriter(FileSystem fileSystem, JobConf conf, String name,
+  getRecordWriter(FileSystem fileSystem, Configuration conf, String name,
                   Progressable reporter) throws IOException {
     return new
         OrcRecordWriter(new Path(name), getOptions(conf, null));
